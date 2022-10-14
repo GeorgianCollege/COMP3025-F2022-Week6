@@ -16,8 +16,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val contactList = deserializeJSON()
-
-        if (contactList != null) {
+        if (contactList != null)
+        {
             for(contact in contactList)
             {
                 Log.i("listItem", contact.toString())
@@ -41,14 +41,11 @@ class MainActivity : AppCompatActivity() {
 
     fun deserializeJSON(): List<ContactModel>?
     {
-        val moshi = Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory())
-            .build()
+        val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val listType = Types.newParameterizedType(List::class.java, ContactModel::class.java)
         val adapter: JsonAdapter<List<ContactModel>> = moshi.adapter(listType)
         val contactListRawString = getTextFromResource(this, R.raw.contacts)
         val contactList: List<ContactModel>? = adapter.fromJson(contactListRawString)
-        //Log.i("contact_list_raw", contactList.toString())
         return contactList
     }
 }
