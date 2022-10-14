@@ -10,14 +10,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-       val contactListString = getTextFromResource(this, R.raw.contacts)
+        val contactListRawString = getTextFromResource(this, R.raw.contacts)
+        Log.i("contact_list_raw", contactListRawString)
 
-        Log.i("contact_list", contactListString)
+        val contactListAssetString = getTextFromAssets(this, "contacts.json")
+        Log.i("contact_list_assets", contactListAssetString)
     }
 
     fun getTextFromResource(context: Context, resourceId: Int): String
     {
         return context.resources.openRawResource(resourceId)
+            .bufferedReader()
+            .use {it.readText()}
+    }
+
+    fun getTextFromAssets(context: Context, fileName: String): String
+    {
+        return context.resources.assets.open(fileName)
             .bufferedReader()
             .use {it.readText()}
     }
